@@ -1,0 +1,15 @@
+# JellyPlex-Watched — syncs watched/played state between Jellyfin and Plex.
+# docs: docs/jellyplex-watched.md
+#
+# No web UI. Configuration (server URLs + tokens) lives in a .env file next to
+# this compose — never commit real tokens. See the upstream project for the
+# full .env reference: https://github.com/luigi311/JellyPlex-Watched
+services:
+  jellyplex-watched:
+    image: ghcr.io/luigi311/jellyplex-watched:latest
+    container_name: jellyplex-watched
+    restart: unless-stopped
+    network_mode: host
+    env_file: .env
+    volumes:
+      - ./logs:/app/logs
