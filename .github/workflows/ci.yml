@@ -14,3 +14,5 @@ jobs:
   ci:
     uses: argyle-labs/.github/.github/workflows/compose-ci.yml@main
     secrets: inherit
+
+# Re-validated against fixed compose-ci reusable (env_file placeholders).
