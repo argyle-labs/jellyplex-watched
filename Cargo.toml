@@ -1,0 +1,30 @@
+[package]
+name = "jellyplex-watched"
+version = "0.1.0"
+edition = "2024"
+description = "JellyPlex-Watched watched-state sync (Jellyfin <-> Plex) — orca plugin (service-backend)"
+
+[package.metadata.orca]
+category = "media"
+
+[lib]
+name = "jellyplex_watched"
+path = "src/lib.rs"
+# `rlib` retains the in-crate `#[cfg(test)]` harness. The plugin artifact is
+# the `[[bin]]` below — a dynamic subprocess the loader spawns, not a dlopened
+# cdylib.
+crate-type = ["rlib"]
+
+[[bin]]
+name = "jellyplex-watched"
+path = "src/main.rs"
+
+# JellyPlex-Watched has no REST API and no web UI — it's a scheduled sync
+# daemon configured via a host-side `.env` file. No typed API client to wrap,
+# no tool surface; this plugin carries only the `ServiceBackend` for deploy/
+# backup/restore of the instance itself.
+[dependencies]
+plugin-toolkit = { version = ">=0.2.1-rc.47", registry = "gitea", package = "orca-plugin-toolkit", default-features = false, features = ["tools", "db"] }
+
+[lints.clippy]
+let_underscore_must_use = "deny"
